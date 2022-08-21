@@ -50,7 +50,7 @@ def solve(g, moves):
         return
     elif not g:
         N += 1
-        print(f"Solution {N}:\t{moves}")
+        print(f"Solution {N}:\t{[i+1 for i in moves]}")
         return
     prev = None  # to skip equivalent solutions
     for col in range(DIM):
