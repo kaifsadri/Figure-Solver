@@ -6,7 +6,7 @@ DIM = 5
 MAX_MOVES = 11
 # This is the game's input. Enter them row by row, starting with the bottom row.
 # c = circle, t=triangle, s=square, d=diamond
-game_input = "cctct" + "ccssd" + "ssdsd" + "cddtc" + "ttcts"
+game_input = "cttct" + "sdcts" + "tsssc" + "sddcc" + "cdtdd"
 
 # Code starts here.
 grid = {divmod(i, DIM): k for i, k in enumerate(game_input)}
@@ -43,18 +43,17 @@ def elim(col, g):
 def solve(g, moves):
     """recursive solver"""
     global DIM, MAX_MOVES, N
-    if len(moves) > MAX_MOVES:
-        # Failure:
+    if len(moves) >= MAX_MOVES:
+        # Solution not found
         return
-    if not g:
-        # Have a solution:
-        N += 1
-        print(f"Solution {N}:\t{[i+1 for i in moves]}")
-        return
-    # More work to do:
     for col in range(DIM):
         if (0, col) in g and g.get((0, col - 1)) != g[(0, col)]:  # naiive check to speed things up
-            solve(elim(col, g), moves + (col,))
+            if not (s := elim(col, g)):
+                N += 1
+                print(f"Solution {N}:\t{[i+1 for i in moves + (col,)]}")
+                return
+            else:
+                solve(s, moves + (col,))
     return
 
 
